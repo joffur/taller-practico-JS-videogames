@@ -21,9 +21,19 @@ function startGame() {
   game.textAlign = 'center';
   game.textBaseline = 'middle';
 
-  for (let i = 1; i <= 10; i++) {
-    for (let j = 1; j <= 10; j++) {
-      game.fillText(emojis['X'], elementSize * (i - 1/2), elementSize * (j - 1/2));
-    }
-  }
+  const map = maps[0];
+  const mapRows = map.trim().split('\n');
+  const mapRowCols = mapRows.map(row => row.trim().split(''));
+
+  mapRowCols.forEach((row, rowIndex) => {
+    row.forEach((col, colIndex) => {
+      game.fillText(emojis[col], elementSize * ((colIndex + 1) - 1/2), elementSize * ((rowIndex + 1) - 1/2));
+    });
+  });
+  
+  // for (let row = 1; row <= 10; row++) {
+  //   for (let col = 1; col <= 10; col++) {
+  //     game.fillText(emojis[mapRowCols[row - 1][col - 1]], elementSize * (col - 1/2), elementSize * (row - 1/2));
+  //   }
+  // }
 }
