@@ -20,6 +20,7 @@ let isCollide = false;
 let timeStart;
 let timePlayer;
 let timeInterval;
+let playerTime = undefined;
 
 const playerPosition = {
   x: undefined,
@@ -153,7 +154,8 @@ function levelFail() {
 
 function gameWin() {
   clearInterval(timeInterval);
-  const playerTime = Date.now() - timeStart;
+  playerTime = Date.now() - timeStart;
+  spanTime.innerText = formatTime(playerTime);
   game.clearRect(0, 0, canvasSize, canvasSize);
   game.fillStyle = '#6DBF8F';
   game.fillRect(0, 0, canvasSize, canvasSize);
