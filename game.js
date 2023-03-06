@@ -5,14 +5,21 @@ const btnUp = document.querySelector('#up');
 const btnDown = document.querySelector('#down');
 const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
+const spanLives = document.querySelector('#lives');
+const spanTime = document.querySelector('#time');
+const spanRecord = document.querySelector('#record');
+const pResult = document.querySelector('#result');
 
 // Initialize variables 
 let canvasSize;
 let elementSize;
+let mapRowCols;
 let level = 0;
 let lives = 3;
-let mapRowCols;
 let isCollide = false;
+let timeStart;
+let timePlayer;
+let timeInterval;
 
 const playerPosition = {
   x: undefined,
@@ -52,8 +59,16 @@ function startGame() {
     mapRowCols = mapRows.map(row => row.trim().split(''));
   }
 
+  if (!timeStart) {
+    timeStart = Date.now();
+    timeInterval = setInterval(showTime, 100);
+    showRecord();
+  }
+
   game.clearRect(0, 0, canvasSize, canvasSize);
   bombsPosition = [];
+
+  showLives();
 
   mapRowCols.forEach((row, rowIndex) => {
     row.forEach((col, colIndex) => {
@@ -100,13 +115,13 @@ function movePlayer() {
     return bomb.x == playerPosition.x && bomb.y == playerPosition.y;
   })
 
+  game.fillText(emojis['PLAYER'], playerPosition.x * elementSize, playerPosition.y * elementSize);
+
   if (giftCollisionX && giftCollisionY) {
     levelWin();
   } else if (bombCollision) {
     levelFail();
   }
-
-  game.fillText(emojis['PLAYER'], playerPosition.x * elementSize, playerPosition.y * elementSize);
 }
 
 function levelWin() {
@@ -124,6 +139,7 @@ function levelWin() {
 function levelFail() {
   console.log('Chocaste con una bomba 😔');
   lives--;
+  showLives();
   if (lives <= 0) {
     gameOver();
     return -1;
@@ -136,6 +152,8 @@ function levelFail() {
 }
 
 function gameWin() {
+  clearInterval(timeInterval);
+  const playerTime = Date.now() - timeStart;
   game.clearRect(0, 0, canvasSize, canvasSize);
   game.fillStyle = '#6DBF8F';
   game.fillRect(0, 0, canvasSize, canvasSize);
@@ -144,9 +162,59 @@ function gameWin() {
   game.textAlign = 'center';
   game.textBaseline = 'middle';
   game.fillText('You Win', canvasSize/2, canvasSize/2);
+
+  const recordTime = localStorage.getItem('record_time');
+  if (recordTime) {
+    if (recordTime >= playerTime) {
+      localStorage.setItem('record_time', playerTime);
+      pResult.innerText = '¡Superaste el record! 😎';
+      
+      game.font = `${elementSize*2}px 'VT323'`;
+      game.textAlign = 'center';  
+      game.textBaseline = 'middle';
+      game.fillText('¡New Record!', canvasSize / 2, (3 * canvasSize) / 4);
+    }
+    else {
+      pResult.innerText = 'Lo siento, no superaste el record 😔';
+    }
+  }
+  else {
+    pResult.innerText = 'Primera vez? Muy bien, pero ahora intenta superar tu tiempo';
+    localStorage.setItem('record_time', playerTime);
+  }
+  
+  showRecord();
 }
 
-function gameOver(params) {
+function showLives() {
+  spanLives.innerText = emojis['HEART'].repeat(lives);
+}
+
+function showTime() {
+  spanTime.innerText = formatTime(Date.now() - timeStart);
+}
+
+function showRecord() {
+  if (localStorage.getItem('record_time')) {
+    spanRecord.innerText = formatTime(localStorage.getItem('record_time'));
+  }
+  else {
+    spanRecord.innerText = '59:59:99';
+  }
+}
+
+function formatTime(time_ms) {
+  const cs = parseInt(time_ms / 10) % 100;
+  const seg = parseInt(time_ms / 1000) % 60;
+  const min = parseInt(time_ms / 60000) % 60;
+  const csStr = `${cs}`.padStart(3, "0");
+  const segStr = `${seg}`.padStart(2, "0");
+  const minStr = `${min}`.padStart(2, "0");
+  return `${minStr}:${segStr}:${csStr}`;
+}
+
+function gameOver() {
+  clearInterval(timeInterval);
   level = 0;
   lives = 3;
   isCollide = false;
