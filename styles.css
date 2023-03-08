@@ -16,7 +16,7 @@ body {
   background-color: var(--background);
   color: var(--primary);  
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  margin: 0;
+  margin: 5px 0 0 0;
   padding: 0;
 }
 
@@ -25,7 +25,8 @@ body {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  height: 100vh;
+  gap: 10px;
+  height: 100%;
   width: 100vw;
 }
 
@@ -41,7 +42,7 @@ canvas {
   justify-content: center;
   flex-wrap: wrap;
   margin: 0 auto;
-  width: 100%;
+  width: 200px;
 }
 .btns-container {
   width: 200px;
@@ -78,14 +79,43 @@ button i {
 
 .messages {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   margin: 0 auto;
-  width: 80%;
-  max-width: 460px;
+  font-size: 24px;
 }
 
 p {
-  display: block;
+  display: inline-block;
   margin: 0;
   width: 100%;
+  color: var(--primary);
+}
+
+.bottom-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  min-width: 320px;
+  max-width: 600px;
+  padding: 0 20px;
+}
+
+.messages__result {
+  display: none;
+  border: 1px solid var(--primary);
+  background-color: var(--secondary);
+  color: var(--white);
+  padding: 5px 10px;
+  text-align: justify;
+  border-radius: 20px;
+  margin-top: 10px;
+}
+.messages__result-final {
+  display: inline-block;
+}
+@media (min-width: 520px) {
+  .bottom-container {
+    flex-direction: row;
+  }
 }

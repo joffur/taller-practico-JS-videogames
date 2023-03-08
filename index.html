@@ -14,30 +14,32 @@
   <div class="game-container">
     <canvas id="game"></canvas>
 
-    <div class="btns">
-      <div class="btns-container">
-        <button id="up">
-          <i class="fa-solid fa-caret-up fa-2xl"></i>
-        </button>
-        <div class="btns-lr">
-          <button id="left">
-            <i class="fa-solid fa-caret-left fa-2xl"></i>
+    <div class="bottom-container">
+      <div class="btns">
+        <div class="btns-container">
+          <button id="up">
+            <i class="fa-solid fa-caret-up fa-2xl"></i>
           </button>
-          <button id="right">
-            <i class="fa-solid fa-caret-right fa-2xl"></i>
+          <div class="btns-lr">
+            <button id="left">
+              <i class="fa-solid fa-caret-left fa-2xl"></i>
+            </button>
+            <button id="right">
+              <i class="fa-solid fa-caret-right fa-2xl"></i>
+            </button>
+          </div>
+          <button id="down">
+            <i class="fa-solid fa-caret-down fa-2xl"></i>
           </button>
         </div>
-        <button id="down">
-          <i class="fa-solid fa-caret-down fa-2xl"></i>
-        </button>
       </div>
-    </div>
-
-    <div class="messages">
-      <p>Vidas: <span id="lives"></span></p>
-      <p>Tiempo ⌛: <span id="time"></span></p>
-      <p>Record 🏆: <span id="record"></span></p>
-      <p id="result"></p>
+  
+      <div class="messages">
+        <p>Vidas: <span id="lives"></span></p>
+        <p>Tiempo ⌛: <span id="time"></span></p>
+        <p>Record 🏆: <span id="record"></span></p>
+        <p id="result" class="messages__result"></p>
+      </div>
     </div>
   </div>
 

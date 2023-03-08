@@ -64,6 +64,7 @@ function startGame() {
     timeStart = Date.now();
     timeInterval = setInterval(showTime, 100);
     showRecord();
+    pResult.classList.remove('messages__result-final');
   }
 
   game.clearRect(0, 0, canvasSize, canvasSize);
@@ -141,20 +142,21 @@ function levelFail() {
   console.log('Chocaste con una bomba 😔');
   lives--;
   showLives();
-  if (lives <= 0) {
-    gameOver();
-    return -1;
-  }
   isCollide = true;
   mapRowCols[playerPosition.y - 1/2][playerPosition.x - 1/2] = 'BOMB_COLLISION';
   playerPosition.x = undefined;
   playerPosition.y = undefined;
-  startGame();
+  if (lives <= 0) {
+    gameOver();
+  }
+  else {
+    startGame();
+  }
 }
 
 function gameWin() {
-  clearInterval(timeInterval);
   playerTime = Date.now() - timeStart;
+  restartGame();
   spanTime.innerText = formatTime(playerTime);
   game.clearRect(0, 0, canvasSize, canvasSize);
   game.fillStyle = '#6DBF8F';
@@ -185,6 +187,7 @@ function gameWin() {
     localStorage.setItem('record_time', playerTime);
   }
   
+  pResult.classList.add('messages__result-final');
   showRecord();
 }
 
@@ -216,10 +219,7 @@ function formatTime(time_ms) {
 }
 
 function gameOver() {
-  clearInterval(timeInterval);
-  level = 0;
-  lives = 3;
-  isCollide = false;
+  restartGame();
   game.clearRect(0, 0, canvasSize, canvasSize);
   game.fillStyle = '#C2564F';
   game.fillRect(0, 0, canvasSize, canvasSize);
@@ -228,6 +228,17 @@ function gameOver() {
   game.textAlign = 'center';
   game.textBaseline = 'middle';
   game.fillText('You Lose', canvasSize/2, canvasSize/2);
+  pResult.innerText = 'Game Over ☠️';
+  pResult.classList.add('messages__result-final');
+}
+function restartGame() {
+  clearInterval(timeInterval);
+  timeStart = undefined;
+  level = 0;
+  lives = 3;
+  isCollide = false;
+  playerPosition.x = undefined;
+  playerPosition.y = undefined;
 }
 
 function moveByKeys(event) {
