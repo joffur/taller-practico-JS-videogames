@@ -2,7 +2,6 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'VT323', monospace;
 }
 :root {
   --primary: #3C3D73;
@@ -18,6 +17,7 @@ body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   margin: 5px 0 0 0;
   padding: 0;
+  font-family: 'VT323', monospace;
 }
 
 .game-container {
@@ -117,5 +117,9 @@ p {
 @media (min-width: 520px) {
   .bottom-container {
     flex-direction: row;
+    margin-top: 20px;
+  }
+  .game-container {
+    flex-direction: column;
   }
 }

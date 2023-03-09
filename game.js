@@ -109,7 +109,6 @@ btnRight.addEventListener('click', moveRight);
 
 // Functions to move player
 function movePlayer() {
-  // console.log('player position{', playerPosition ,'}');
   const giftCollisionX = playerPosition.x == giftPosition.x;
   const giftCollisionY = playerPosition.y == giftPosition.y;
 
@@ -126,8 +125,9 @@ function movePlayer() {
   }
 }
 
+// Functions for win or lose level
 function levelWin() {
-  console.log('Subiste de nivel! 🎉');
+  // console.log('Subiste de nivel! 🎉');
   level++;
   isCollide = false;
   if (level >= maps.length) {
@@ -139,7 +139,7 @@ function levelWin() {
 }
 
 function levelFail() {
-  console.log('Chocaste con una bomba 😔');
+  // console.log('Chocaste con una bomba 😔');
   lives--;
   showLives();
   isCollide = true;
@@ -154,6 +154,7 @@ function levelFail() {
   }
 }
 
+// Functios for win or lose game
 function gameWin() {
   playerTime = Date.now() - timeStart;
   restartGame();
@@ -191,33 +192,6 @@ function gameWin() {
   showRecord();
 }
 
-function showLives() {
-  spanLives.innerText = emojis['HEART'].repeat(lives);
-}
-
-function showTime() {
-  spanTime.innerText = formatTime(Date.now() - timeStart);
-}
-
-function showRecord() {
-  if (localStorage.getItem('record_time')) {
-    spanRecord.innerText = formatTime(localStorage.getItem('record_time'));
-  }
-  else {
-    spanRecord.innerText = '59:59:99';
-  }
-}
-
-function formatTime(time_ms) {
-  const cs = parseInt(time_ms / 10) % 100;
-  const seg = parseInt(time_ms / 1000) % 60;
-  const min = parseInt(time_ms / 60000) % 60;
-  const csStr = `${cs}`.padStart(3, "0");
-  const segStr = `${seg}`.padStart(2, "0");
-  const minStr = `${min}`.padStart(2, "0");
-  return `${minStr}:${segStr}:${csStr}`;
-}
-
 function gameOver() {
   restartGame();
   game.clearRect(0, 0, canvasSize, canvasSize);
@@ -231,6 +205,36 @@ function gameOver() {
   pResult.innerText = 'Game Over ☠️';
   pResult.classList.add('messages__result-final');
 }
+
+// Auxiliar functions
+function showLives() {
+  spanLives.innerText = emojis['HEART'].repeat(lives);
+}
+
+function showTime() {
+  spanTime.innerText = formatTime(Date.now() - timeStart);
+}
+
+function showRecord() {
+  if (localStorage.getItem('record_time')) {
+    spanRecord.innerText = formatTime(localStorage.getItem('record_time'));
+  }
+  else {
+    spanRecord.innerText = '59:59:999';
+  }
+}
+
+function formatTime(time_ms) {
+  const cs = parseInt(time_ms / 10) % 100;
+  const seg = parseInt(time_ms / 1000) % 60;
+  const min = parseInt(time_ms / 60000) % 60;
+  const csStr = `${cs}`.padStart(3, "0");
+  const segStr = `${seg}`.padStart(2, "0");
+  const minStr = `${min}`.padStart(2, "0");
+  return `${minStr}:${segStr}:${csStr}`;
+}
+
+// Reset values for new game
 function restartGame() {
   clearInterval(timeInterval);
   timeStart = undefined;
@@ -241,6 +245,7 @@ function restartGame() {
   playerPosition.y = undefined;
 }
 
+// Functions for move player
 function moveByKeys(event) {
   if (event.key == "ArrowUp" || event.key == "w" || event.key == "W") moveUp();
   else if (event.key == "ArrowDown" || event.key == "s" || event.key == "S") moveDown();
